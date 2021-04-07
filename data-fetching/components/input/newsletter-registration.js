@@ -2,12 +2,11 @@ import classes from "./newsletter-registration.module.css";
 import React, { useRef } from "react";
 
 function NewsletterRegistration() {
- 
-  const inputRef = useRef()
+  const inputRef = useRef();
   async function registrationHandler(event) {
     event.preventDefault();
     const email = inputRef.current.value;
-    const resp = await fetch("api/newsletter", {
+    const resp = await fetch("/api/newsletter", {
       method: "POST",
       body: JSON.stringify({ email }),
       headers: {
