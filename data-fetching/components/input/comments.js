@@ -9,12 +9,13 @@ function Comments(props) {
 
   const [comments, setComments] = useState([]);
   const [showComments, setShowComments] = useState(false);
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     if (showComments) {
       fetch("/api/comments/" + eventId)
         .then((resp) => resp.json())
-        .then((data) => console.log(data.comments));
+        .then((data) => setComments(data.comments));
     }
   }, [showComments]);
 
@@ -31,11 +32,12 @@ function Comments(props) {
       },
     });
     const data = await resp.json();
-    console.log(data)
+    setMessage(data.message);
   }
 
   return (
     <section className={classes.comments}>
+      <p> {message}</p>
       <button onClick={toggleCommentsHandler}>
         {showComments ? "Hide" : "Show"} Comments
       </button>

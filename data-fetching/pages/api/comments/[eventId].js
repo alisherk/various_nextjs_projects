@@ -1,7 +1,8 @@
-import { db } from "../db";
+import { db } from "../../db";
 import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
 
 export default async function handler(req, res) {
+
   if (req.method === "POST") {
     const eventId = req.query.eventId;
     const { email, text, name } = req.body;
@@ -15,13 +16,21 @@ export default async function handler(req, res) {
         email: email,
       }),
     };
-    await db.putItem(params);
-    res.status(201).json({ message: "Sucess, comment is created" });
+    try {
+      await db.putItem(params);
+      res.status(201).json({ message: "Sucess, comment is created" });
+      return;
+    } catch (error) {
+      res.status(500).json({ error }); 
+      return;
+    }
   }
   if (req.method === "GET") {
     const params = {
       TableName: "dt_comments",
       FilterExpression: "eventId = :e",
+      // sort by asc or desc oder: true = ascending, false = descending
+      ScanIndexForward: false,
       ExpressionAttributeValues: marshall({
         ":e": "e2",
       }),
@@ -34,11 +43,10 @@ export default async function handler(req, res) {
       );
       res.status(200).json({ comments: unmarshalledData });
     } catch (error) {
-      console.log(error);
+      res.status(200).json({ error })
     }
   }
 }
-
 
 //query by text
 //must use db.query() as opposed to db.scan()
@@ -57,6 +65,3 @@ export default async function handler(req, res) {
       ":c": "2021-04-05T18:52:16.244Z" 
     }),
   }; */
-
-
-

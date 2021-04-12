@@ -1,0 +1,12 @@
+import { Fragment } from "react";
+import { MainNavigation } from './MainNavigation';
+
+export const Layout = ({ children }) => {
+    return (
+       <Fragment> 
+           <MainNavigation />
+           <main>{children}</main> 
+       </Fragment> 
+    );
+}
+
