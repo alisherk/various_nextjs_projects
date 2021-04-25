@@ -1,11 +1,27 @@
-import { Fragment } from "react"; 
+import { Fragment } from "react";
 import { Hero } from "component/home-page/Hero";
+import { FeaturedPosts } from "component/home-page/FeaturedPosts";
+import { getFeaturedPosts, Post } from "helper/post-util";
+import { GetStaticProps } from "next";
 
+type HomePageProps = {
+  posts: Post[];
+};
 
-export default function HomePage() {
+export const getStaticProps: GetStaticProps<HomePageProps, undefined> = async (
+) => {
+  const featuredPosts = getFeaturedPosts();
+  return {
+    props: { posts: featuredPosts },
+    revalidate: 60,
+  };
+};
+
+export default function HomePage({ posts }: HomePageProps) {
   return (
     <Fragment>
-       <Hero />
+      <Hero />
+      <FeaturedPosts posts={posts} />
     </Fragment>
-  )
+  );
 }
