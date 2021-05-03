@@ -1,9 +1,6 @@
+import { ContactForm } from "component/contact/ContactForm";
+
 
 export default function ContactPage() {
-    return (
-      <div>
-  
-      </div>
-    )
-  }
-  
+  return <ContactForm />;
+}

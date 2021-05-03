@@ -14,11 +14,9 @@ export const PostItem = ({ post }: PostItemProps) => {
     year: "numeric",
   });
 
- 
-
   const imagePath = `/images/posts/${post.slug}/${post.image}`;
   const linkPath = `/posts/${post.slug}`;
- console.log(imagePath)
+
   return (
     <li className={classes.post}>
       <Link href={linkPath}>
